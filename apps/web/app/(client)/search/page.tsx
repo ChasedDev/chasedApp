@@ -35,7 +35,7 @@ export default function SearchPage() {
         products.length === 0 ? (
           <div className="flex flex-col items-center py-12 gap-2">
             <i className="fa-solid fa-magnifying-glass text-3xl text-slate-200" />
-            <p className="text-slate-500 font-medium">Sem resultados para "{debouncedSearch}"</p>
+            <p className="text-slate-500 font-medium">Sem resultados para &quot;{debouncedSearch}&quot;</p>
           </div>
         ) : (
           <>
