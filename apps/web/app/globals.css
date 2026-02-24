@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #16a34a;
+  --brand-light: #dcfce7;
+  --brand-dark: #14532d;
+  --nav-height: 72px;
+  --header-height: 60px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pb-nav { padding-bottom: calc(var(--nav-height) + 1.5rem); }
+
+@layer components {
+  .input-base {
+    @apply w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm
+    focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500
+    bg-white transition-all placeholder:text-slate-400;
+  }
+
+  .card {
+    @apply bg-white rounded-3xl border border-slate-100 shadow-sm;
+  }
+
+  .btn-primary {
+    @apply flex items-center justify-center gap-2 px-5 py-3 rounded-2xl
+    font-semibold text-sm text-white bg-green-600 hover:bg-green-700
+    active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .status-badge {
+    @apply text-xs font-semibold px-2.5 py-1 rounded-full;
+  }
+}
+
+/* Liquid glass bottom nav */
+.liquid-nav {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border-top: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.06), 0 -1px 0 rgba(0,0,0,0.04);
+}
+
+/* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 99px; }

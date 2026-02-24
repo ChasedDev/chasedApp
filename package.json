@@ -1,0 +1,16 @@
+{
+  "name": "chased",
+  "private": true,
+  "packageManager": "npm@10.8.0",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "typescript": "^5.4.0"
+  }
+}
