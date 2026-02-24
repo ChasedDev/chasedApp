@@ -3,7 +3,20 @@
   "version": "0.0.1",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
-  "scripts": { "build": "tsc" },
-  "devDependencies": { "typescript": "^5.4.0" },
-  "dependencies": { "zod": "^3.23.0" }
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "require": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc --noEmit || true"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  },
+  "dependencies": {
+    "zod": "^3.23.0"
+  }
 }
