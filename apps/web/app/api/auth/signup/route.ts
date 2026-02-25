@@ -1,47 +1,44 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { SignupSchema } from '@chased/shared';
-import { createServerClient } from '@/lib/supabase/server';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY! 
+);
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-
     const parsed = SignupSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: parsed.error.flatten() },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
     }
 
     const data = parsed.data;
-    const supabase = await createServerClient();
 
-    // 1) Create Auth user
-    const { data: authData, error: signupError } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-    });
+    // 1) Create Auth user (admin)
+    const { data: created, error: signupError } =
+      await supabaseAdmin.auth.admin.createUser({
+        email: data.email,
+        password: data.password,
+        email_confirm: true,
+      });
 
-    if (signupError || !authData.user) {
+    if (signupError || !created.user) {
       return NextResponse.json(
         { error: signupError?.message || 'Erro ao criar usuário' },
         { status: 400 }
       );
     }
 
-    const userId = authData.user.id;
+    const userId = created.user.id;
 
-    // 2) Upsert Profile (idempotent)
-    const { error: profileError } = await supabase
+    // 2) Upsert profile (bypass RLS)
+    const { error: profileError } = await supabaseAdmin
       .from('profiles')
       .upsert(
-        {
-          id: userId,
-          role: 'client',
-          name: data.name,
-          phone: data.phone ?? null,
-        },
+        { id: userId, role: 'client', name: data.name, phone: data.phone ?? null },
         { onConflict: 'id' }
       );
 
@@ -49,8 +46,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: profileError.message }, { status: 500 });
     }
 
-    // 3) Upsert Pharmacy (recommended: unique on owner_user_id)
-    const { error: pharmacyError } = await supabase
+    // 3) Upsert pharmacy (bypass RLS)
+    const { error: pharmacyError } = await supabaseAdmin
       .from('pharmacies')
       .upsert(
         {
