@@ -8,6 +8,7 @@ export interface WhatsAppOrderData {
   city: string;
   state: string;
   zip: string;
+  cnpj?: string | null; // ✅ NOVO
   items: Array<{
     name: string;
     presentation: string;
@@ -25,28 +26,39 @@ export function buildWhatsAppMessage(data: WhatsAppOrderData): string {
   const itemLines = data.items
     .map(
       (item, idx) =>
-        `${idx + 1}) ${item.name} - ${item.presentation}\n   Qty: ${item.qty} | Unit: ${formatBRLMessage(item.unit_price_cents)} | Total: ${formatBRLMessage(item.line_total_cents)}`
+        `${idx + 1}. ${item.name} - ${item.presentation}\n` +
+        `   Quantidade: ${item.qty}\n` +
+        `   Unitário: ${formatBRLMessage(item.unit_price_cents)}\n` +
+        `   Total: ${formatBRLMessage(item.line_total_cents)}`
     )
-    .join('\n');
+    .join('\n\n');
 
   return [
-    'NEW ORDER - Chased',
-    `Pharmacy: ${data.pharmacy_name}`,
-    `Responsible: ${data.responsible_name}`,
-    `WhatsApp: ${data.pharmacy_whatsapp}`,
-    `Address: ${data.address_line1}, ${data.city}-${data.state}, ${data.zip}`,
+    '🧾 *NOVO PEDIDO*',
     '',
-    'Items:',
+    '🏥 *Dados da Farmácia*',
+    `Nome: ${data.pharmacy_name}`,
+    data.cnpj ? `CNPJ: ${data.cnpj}` : null,
+    `Responsável: ${data.responsible_name}`,
+    `WhatsApp: ${data.pharmacy_whatsapp}`,
+    `Endereço: ${data.address_line1}, ${data.city} - ${data.state}`,
+    `CEP: ${data.zip}`,
+    '',
+    '📦 *Itens do Pedido*',
     itemLines,
     '',
-    `Notes: ${data.notes || '—'}`,
-    '',
+    '💰 *Resumo Financeiro*',
     `Subtotal: ${formatBRLMessage(data.subtotal_cents)}`,
-    `Discount: ${formatBRLMessage(data.discount_cents)}`,
-    `TOTAL: ${formatBRLMessage(data.total_cents)}`,
+    data.discount_cents > 0
+      ? `Desconto: ${formatBRLMessage(data.discount_cents)}`
+      : null,
+    `*TOTAL: ${formatBRLMessage(data.total_cents)}*`,
     '',
-    'Sent from Chased Web',
-  ].join('\n');
+    '📝 *Observações*',
+    data.notes || 'Sem observações.',
+  ]
+    .filter(Boolean)
+    .join('\n');
 }
 
 export function buildWhatsAppUrl(digits: string, message: string): string {
