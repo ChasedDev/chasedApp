@@ -34,9 +34,9 @@ export function buildWhatsAppMessage(data: WhatsAppOrderData): string {
     .join('\n\n');
 
   return [
-    '🧾 *NOVO PEDIDO*',
+    '*NOVO PEDIDO*',
     '',
-    '🏥 *Dados da Farmácia*',
+    '*Dados da Farmácia*',
     `Nome: ${data.pharmacy_name}`,
     data.cnpj ? `CNPJ: ${data.cnpj}` : null,
     `Responsável: ${data.responsible_name}`,
@@ -44,17 +44,17 @@ export function buildWhatsAppMessage(data: WhatsAppOrderData): string {
     `Endereço: ${data.address_line1}, ${data.city} - ${data.state}`,
     `CEP: ${data.zip}`,
     '',
-    '📦 *Itens do Pedido*',
+    '*Itens do Pedido*',
     itemLines,
     '',
-    '💰 *Resumo Financeiro*',
+    '*Resumo Financeiro*',
     `Subtotal: ${formatBRLMessage(data.subtotal_cents)}`,
     data.discount_cents > 0
       ? `Desconto: ${formatBRLMessage(data.discount_cents)}`
       : null,
     `*TOTAL: ${formatBRLMessage(data.total_cents)}*`,
     '',
-    '📝 *Observações*',
+    '*Observações*',
     data.notes || 'Sem observações.',
   ]
     .filter(Boolean)
