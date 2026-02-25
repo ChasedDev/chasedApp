@@ -10,6 +10,7 @@ const navItems = [
   { href: '/admin',            label: 'Dashboard', icon: 'fa-chart-line',    exact: true },
   { href: '/admin/products',   label: 'Produtos',  icon: 'fa-pills'          },
   { href: '/admin/orders',     label: 'Pedidos',   icon: 'fa-clipboard-list' },
+  { href: '/admin/promos',     label: 'Banners',      icon: 'fa-image'          },
   { href: '/admin/categories', label: 'Categ.',    icon: 'fa-tags'           },
   { href: '/admin/settings',   label: 'Config.',   icon: 'fa-gear'           },
 ] as const;
