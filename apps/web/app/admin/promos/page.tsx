@@ -1,3 +1,4 @@
+'use client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { PromoBanner } from '@chased/shared';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
