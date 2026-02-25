@@ -28,7 +28,27 @@ export async function POST(req: NextRequest) {
   }
 
   const { subtotal_cents, discount_cents, total_cents } = calculateOrderTotals(orderItems.map(i => ({ unit_price_cents: i.unit_price_cents, qty: i.qty })));
-  const whatsapp_message = buildWhatsAppMessage({ pharmacy_name: pharmacy.pharmacy_name, responsible_name: pharmacy.responsible_name, pharmacy_whatsapp: pharmacy.whatsapp, address_line1: pharmacy.address_line1, city: pharmacy.city, state: pharmacy.state, zip: pharmacy.zip, items: orderItems.map(i => ({ name: i.name, presentation: i.presentation, qty: i.qty, unit_price_cents: i.unit_price_cents, line_total_cents: i.line_total_cents })), notes: notes ?? null, subtotal_cents, discount_cents, total_cents });
+const whatsapp_message = buildWhatsAppMessage({
+  pharmacy_name: pharmacy.pharmacy_name,
+  responsible_name: pharmacy.responsible_name,
+  cnpj: pharmacy.cnpj ?? null, // ✅ add
+  pharmacy_whatsapp: pharmacy.whatsapp,
+  address_line1: pharmacy.address_line1,
+  city: pharmacy.city,
+  state: pharmacy.state,
+  zip: pharmacy.zip,
+  items: orderItems.map(i => ({
+    name: i.name,
+    presentation: i.presentation,
+    qty: i.qty,
+    unit_price_cents: i.unit_price_cents,
+    line_total_cents: i.line_total_cents,
+  })),
+  notes: notes ?? null,
+  subtotal_cents,
+  discount_cents,
+  total_cents,
+});
   const whatsapp_url = buildWhatsAppUrl(repSettings.whatsapp_number_digits, whatsapp_message);
 
   const { data: order, error: orderError } = await supabase.from('orders').insert({ pharmacy_id: pharmacy.id, client_user_id: user.id, status: 'draft', notes: notes ?? null, subtotal_cents, discount_cents, total_cents, whatsapp_message }).select('id').single();
