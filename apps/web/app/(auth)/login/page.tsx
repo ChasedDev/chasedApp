@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/client';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { FormField } from '@/components/ui/FormField';
@@ -18,7 +18,6 @@ const LoginSchema = z.object({
 type LoginForm = z.infer<typeof LoginSchema>;
 
 export default function LoginPage() {
-  const router = useRouter();
   const supabase = createClient();
   const { toast } = useToast();
   const qc = useQueryClient();
@@ -40,7 +39,6 @@ export default function LoginPage() {
       return;
     }
 
-    // Always query by user id to avoid RLS stale row issues
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
@@ -49,41 +47,78 @@ export default function LoginPage() {
 
     setLoading(false);
     const isAdmin = profile?.role === 'rep_admin';
-
-    // Hard redirect to bypass client-side cache completely
     window.location.href = isAdmin ? '/admin' : '/';
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-50 via-white to-slate-50 px-4">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <div className="w-14 h-14 bg-brand-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-brand-600/30">
-            <i className="fa-solid fa-capsules text-white text-2xl" />
-          </div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Chesed</h1>
-          <p className="text-slate-400 mt-1 text-sm">Plataforma de vendas farmacêuticas</p>
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-between bg-gradient-to-br from-brand-50 via-white to-slate-50 px-4 py-10">
 
-        <div className="card p-6">
-          <h2 className="text-lg font-bold mb-5 text-slate-800">Entrar na sua conta</h2>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <FormField label="E-mail" error={errors.email?.message}>
-              <input {...register('email')} type="email" className="input-base" placeholder="seu@email.com" autoComplete="email" />
-            </FormField>
-            <FormField label="Senha" error={errors.password?.message}>
-              <input {...register('password')} type="password" className="input-base" autoComplete="current-password" />
-            </FormField>
-            <PrimaryButton type="submit" loading={loading} className="w-full" size="lg">
-              <i className="fa-solid fa-arrow-right-to-bracket" />Entrar
-            </PrimaryButton>
-          </form>
-          <p className="text-center text-sm text-slate-400 mt-4">
-            Não tem conta?{' '}
-            <Link href="/register" className="text-brand-600 font-semibold hover:underline">Cadastre-se</Link>
-          </p>
+      {/* ── Center: Logo + Form ── */}
+      <div className="flex-1 flex items-center justify-center w-full">
+        <div className="w-full max-w-sm">
+
+          {/* Chesed logo */}
+          <div className="flex justify-center mb-8">
+            <div className="relative w-44 h-44">
+              <Image
+                src="/logo-chesed.png"
+                alt="Chesed Distribuidora"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+          </div>
+
+          {/* Card */}
+          <div className="card p-6">
+            <h2 className="text-lg font-bold mb-5 text-slate-800">Entrar na sua conta</h2>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <FormField label="E-mail" error={errors.email?.message}>
+                <input {...register('email')} type="email" className="input-base" placeholder="seu@email.com" autoComplete="email" />
+              </FormField>
+              <FormField label="Senha" error={errors.password?.message}>
+                <input {...register('password')} type="password" className="input-base" autoComplete="current-password" />
+              </FormField>
+              <PrimaryButton type="submit" loading={loading} className="w-full" size="lg">
+                <i className="fa-solid fa-arrow-right-to-bracket" />Entrar
+              </PrimaryButton>
+            </form>
+            <p className="text-center text-sm text-slate-400 mt-4">
+              Não tem conta?{' '}
+              <Link href="/register" className="text-brand-600 font-semibold hover:underline">Cadastre-se</Link>
+            </p>
+          </div>
         </div>
       </div>
+
+      {/* ── Bottom: Partner logos ── */}
+      <div className="w-full max-w-sm mt-10">
+        <p className="text-center text-xs text-slate-400 mb-4 uppercase tracking-widest font-medium">
+          Parceiros
+        </p>
+        <div className="flex items-center justify-center gap-4">
+          {/* Ranbaxy */}
+          <div className="relative w-32 h-16 rounded-2xl overflow-hidden shadow-sm border border-slate-100">
+            <Image
+              src="/logo-ranbaxy.jpg"
+              alt="Ranbaxy"
+              fill
+              className="object-cover"
+            />
+          </div>
+          {/* Glenmark */}
+          <div className="relative w-32 h-16 rounded-2xl overflow-hidden shadow-sm border border-slate-100">
+            <Image
+              src="/logo-glenmark.png"
+              alt="Glenmark"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
