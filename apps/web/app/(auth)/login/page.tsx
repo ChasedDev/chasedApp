@@ -59,7 +59,7 @@ export default function LoginPage() {
 
           {/* Chesed logo */}
           <div className="flex justify-center mb-8">
-            <div className="relative w-44 h-44">
+            <div className="relative w-44 h-44 rounded-full overflow-hidden">
               <Image
                 src="/logo-chesed.png"
                 alt="Chesed Distribuidora"
