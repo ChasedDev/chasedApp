@@ -8,7 +8,7 @@ export interface WhatsAppOrderData {
   city: string;
   state: string;
   zip: string;
-  cnpj?: string | null; // ✅ NOVO
+  cnpj?: string | null;
   items: Array<{
     name: string;
     presentation: string;
