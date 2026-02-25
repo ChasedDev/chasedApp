@@ -11,7 +11,7 @@ export function AppHeader() {
           <div className="w-8 h-8 bg-brand-600 rounded-xl flex items-center justify-center">
             <i className="fa-solid fa-capsules text-white text-sm" />
           </div>
-          <span className="font-bold text-lg text-slate-900 tracking-tight">Chased</span>
+          <span className="font-bold text-lg text-slate-900 tracking-tight">Chesed</span>
         </Link>
         <Link href="/cart" className="relative w-10 h-10 flex items-center justify-center rounded-2xl hover:bg-slate-100 transition-colors">
           <i className="fa-solid fa-cart-shopping text-slate-600 text-lg" />

@@ -50,7 +50,7 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-gray-50 px-4 py-8">
       <div className="max-w-md mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-brand-700">Chased</h1>
+          <h1 className="text-3xl font-bold text-brand-700">Chesed</h1>
           <p className="text-gray-500 mt-2">Crie sua conta</p>
         </div>
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">

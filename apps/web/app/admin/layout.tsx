@@ -50,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <i className="fa-solid fa-capsules text-white text-base" />
           </div>
           <div>
-            <p className="font-bold text-slate-900 leading-none">Chased</p>
+            <p className="font-bold text-slate-900 leading-none">Chesed</p>
             <p className="text-xs text-slate-400 mt-0.5">Administração</p>
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="w-8 h-8 bg-brand-600 rounded-xl flex items-center justify-center shrink-0">
           <i className="fa-solid fa-capsules text-white text-sm" />
         </div>
-        <span className="font-bold text-slate-900 flex-1">Chased Admin</span>
+        <span className="font-bold text-slate-900 flex-1">Chesed Admin</span>
         <button onClick={handleLogout} disabled={loggingOut}
           className="flex items-center gap-1.5 text-xs font-semibold text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-xl transition-all">
           {loggingOut ? <i className="fa-solid fa-circle-notch fa-spin" /> : <i className="fa-solid fa-right-from-bracket" />}

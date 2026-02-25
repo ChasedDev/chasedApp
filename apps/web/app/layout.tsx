@@ -3,7 +3,7 @@ import './globals.css';
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
-  title: 'Chased',
+  title: 'Chesed',
   description: 'Plataforma de vendas farmacêuticas',
 };
 

@@ -61,7 +61,7 @@ export default function LoginPage() {
           <div className="w-14 h-14 bg-brand-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-brand-600/30">
             <i className="fa-solid fa-capsules text-white text-2xl" />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Chased</h1>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Chesed</h1>
           <p className="text-slate-400 mt-1 text-sm">Plataforma de vendas farmacêuticas</p>
         </div>
 
